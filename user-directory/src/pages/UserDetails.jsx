@@ -9,14 +9,21 @@ export const UserDetails = () => {
     const { id } = useParams()
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
-    
+    const [error, setError] = useState("")
 
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 const res = await getUserById(id)
+
+                if (!res) {
+                    setError("User Not Found")
+                    return
+                }
                 setUser(res)
+
+
             } catch (error) {
                 console.log(error);
 
@@ -24,6 +31,24 @@ export const UserDetails = () => {
         }
         fetchUser()
     }, [id])
+
+
+    if (error) {
+        return (
+            <div className="min-h-screen flex flex-col justify-center items-center">
+                <h1 className="text-2xl font-bold text-red-400 mb-3">
+                    User Not Found
+                </h1>
+
+                <button onClick={() => navigate("/")}
+                    className="px-5 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition">
+                    Go Home
+                </button>
+            </div>
+        );
+    }
+
+
     if (!user) {
         return (
             <div className="min-h-screen flex justify-center items-center">
@@ -44,7 +69,7 @@ export const UserDetails = () => {
                         ← Back
                     </button>
 
-                    <div className="borde-b pb-6 mb-6">
+                    <div className="border-b pb-6 mb-6">
                         <div className="w-20 h-20 rounded-full mb-4 bg-blue-600 text-white flex items-center justify-center text-3xl font-bold">
                             {user.name.charAt(0)}
                         </div>
