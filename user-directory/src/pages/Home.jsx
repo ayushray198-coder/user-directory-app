@@ -32,6 +32,8 @@ export const Home = () => {
 
     const filterSearch = users.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
 
+
+
     return (
         <>
             <div className="min-h-screen bg-gray-100 p-6">
@@ -52,6 +54,13 @@ export const Home = () => {
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full max-w-md mx-auto block mb-8 p-3 rounded-lg border border-gray-300 
                     focus:outline-none focus:ring-2 focus:ring-blue-500 " />
+
+                {filterSearch.length === 0 && (
+                    <h1 className="text-center text-2xl font-semibold text-gray-500 mt-10">
+                        No User Found
+                    </h1>
+                )}
+
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {
